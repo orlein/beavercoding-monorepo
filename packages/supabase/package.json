@@ -1,0 +1,24 @@
+{
+  "name": "@beavercoding/supabase",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./client": "./src/client.ts",
+    "./server": "./src/server.ts",
+    "./middleware": "./src/middleware.ts",
+    "./types": "./src/types.ts"
+  },
+  "scripts": {
+    "generate": "supabase gen types typescript --local > src/types.ts"
+  },
+  "dependencies": {
+    "@supabase/ssr": "^0.6",
+    "@supabase/supabase-js": "^2"
+  },
+  "devDependencies": {
+    "@beavercoding/typescript-config": "workspace:*",
+    "typescript": "^5"
+  }
+}
