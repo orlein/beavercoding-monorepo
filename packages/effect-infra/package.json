@@ -1,0 +1,27 @@
+{
+  "name": "@beavercoding/effect-infra",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./db": "./src/db.ts",
+    "./config": "./src/config.ts",
+    "./errors": "./src/errors.ts"
+  },
+  "dependencies": {
+    "@effect/experimental": "^0.58",
+    "@effect/platform": "^0.94",
+    "@effect/sql": "^0.49",
+    "@effect/sql-drizzle": "^0.48",
+    "@effect/sql-pg": "^0.50",
+    "drizzle-orm": ">=0.43.1 <0.50",
+    "effect": "^3.19",
+    "pg": "^8"
+  },
+  "devDependencies": {
+    "@beavercoding/typescript-config": "workspace:*",
+    "@types/pg": "^8",
+    "typescript": "^5"
+  }
+}

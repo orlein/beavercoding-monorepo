@@ -16,6 +16,9 @@ dist/
 # turbo
 .turbo/
 
+# test
+coverage/
+
 # misc
 .DS_Store
 *.tsbuildinfo

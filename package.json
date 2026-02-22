@@ -4,9 +4,14 @@
   "scripts": {
     "dev": "turbo dev",
     "build": "turbo build",
-    "lint": "turbo lint"
+    "lint": "turbo lint",
+    "test": "turbo test",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:push": "drizzle-kit push"
   },
   "devDependencies": {
+    "drizzle-kit": "^0.30",
     "turbo": "^2"
   },
   "packageManager": "pnpm@10.12.1"

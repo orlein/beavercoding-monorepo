@@ -1,15 +1,16 @@
 {
-  "name": "@beavercoding/web",
-  "version": "0.0.0",
+  "name": "@beavercoding/admin",
+  "version": "0.1.0",
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev --turbopack --port 3001",
     "build": "next build",
     "start": "next start",
     "lint": "eslint ."
   },
   "dependencies": {
+    "@beavercoding/ddd-content": "workspace:*",
     "@beavercoding/supabase": "workspace:*",
     "next": "^15",
     "react": "^19",

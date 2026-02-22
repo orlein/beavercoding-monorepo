@@ -12,6 +12,10 @@
     "lint": {
       "dependsOn": ["^build"]
     },
+    "test": {
+      "dependsOn": ["^build"],
+      "outputs": ["coverage/**"]
+    },
     "@beavercoding/supabase#generate": {
       "outputs": ["src/types.ts"]
     }
