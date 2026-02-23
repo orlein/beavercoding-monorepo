@@ -1,19 +1,22 @@
 {
-  "name": "beavercoding-monorepo",
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "dev": "turbo dev",
-    "build": "turbo build",
-    "lint": "turbo lint",
-    "test": "turbo test",
-    "db:generate": "drizzle-kit generate",
-    "db:migrate": "drizzle-kit migrate",
-    "db:push": "drizzle-kit push"
-  },
-  "devDependencies": {
-    "drizzle-kit": "^0.30",
-    "turbo": "^2"
-  },
-  "packageManager": "pnpm@10.12.1"
+	"name": "beavercoding-monorepo",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"dev": "turbo dev",
+		"build": "turbo build",
+		"lint": "turbo lint",
+		"format": "biome format --write .",
+		"check": "biome check .",
+		"test": "turbo test",
+		"db:generate": "drizzle-kit generate",
+		"db:migrate": "drizzle-kit migrate",
+		"db:push": "drizzle-kit push"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.4.4",
+		"drizzle-kit": "^0.30",
+		"turbo": "^2"
+	},
+	"packageManager": "pnpm@10.12.1"
 }

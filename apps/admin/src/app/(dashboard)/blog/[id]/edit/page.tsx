@@ -9,8 +9,8 @@ import {
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { updatePost, type PostStatus } from "../../actions";
 import { PostForm } from "../../_components/post-form";
+import { type PostStatus, updatePost } from "../../actions";
 
 type PostEditRow = Pick<BlogPostRow, "id" | "title" | "body" | "status">;
 

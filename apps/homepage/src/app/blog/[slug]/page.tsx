@@ -1,8 +1,8 @@
-import Link from "next/link";
-import { notFound } from "next/navigation";
 import { createServerClient } from "@beavercoding/supabase/server";
 import { Button } from "@beavercoding/ui/components/button";
 import { Separator } from "@beavercoding/ui/components/separator";
+import Link from "next/link";
+import { notFound } from "next/navigation";
 
 type Post = {
 	id: string;

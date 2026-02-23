@@ -4,12 +4,12 @@ import { Config, Layer, Redacted } from "effect";
 import { DatabaseUrl } from "./config.js";
 
 export const PgLive = PgClient.layerConfig({
-  url: DatabaseUrl,
+	url: DatabaseUrl,
 });
 
 export const DrizzleLive = SqlDrizzle.layer.pipe(Layer.provide(PgLive));
 
 export const PgTest = (url: string) =>
-  PgClient.layerConfig({
-    url: Config.succeed(Redacted.make(url)),
-  });
+	PgClient.layerConfig({
+		url: Config.succeed(Redacted.make(url)),
+	});

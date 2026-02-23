@@ -1,7 +1,7 @@
 import { Data } from "effect";
 
 export class ContentId extends Data.Class<{ readonly value: string }> {
-  static make(value: string): ContentId {
-    return new ContentId({ value });
-  }
+	static make(value: string): ContentId {
+		return new ContentId({ value });
+	}
 }

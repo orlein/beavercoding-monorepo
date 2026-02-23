@@ -27,7 +27,10 @@ export default function RootLayout({
 							BeaverCoding
 						</Link>
 						<nav className="flex gap-6 text-sm text-muted-foreground">
-							<Link href="/" className="hover:text-foreground transition-colors">
+							<Link
+								href="/"
+								className="hover:text-foreground transition-colors"
+							>
 								Home
 							</Link>
 							<Link

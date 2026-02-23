@@ -30,8 +30,7 @@ export function AddContentForm() {
 	if (!isOpen) {
 		return (
 			<Button onClick={() => setIsOpen(true)} variant="outline">
-				<Plus className="size-4" />
-				새 콘텐츠 추가
+				<Plus className="size-4" />새 콘텐츠 추가
 			</Button>
 		);
 	}
@@ -65,11 +64,7 @@ export function AddContentForm() {
 					</div>
 					<div className="space-y-1.5">
 						<Label htmlFor="new-title">제목</Label>
-						<Input
-							id="new-title"
-							name="title"
-							placeholder="콘텐츠 제목"
-						/>
+						<Input id="new-title" name="title" placeholder="콘텐츠 제목" />
 					</div>
 					<div className="space-y-1.5">
 						<Label htmlFor="new-body">본문</Label>

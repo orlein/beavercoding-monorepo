@@ -1,15 +1,13 @@
-import Link from "next/link";
-import {
-	Button,
-} from "@beavercoding/ui/components/button";
+import { Button } from "@beavercoding/ui/components/button";
 import {
 	Card,
 	CardContent,
+	CardDescription,
 	CardHeader,
 	CardTitle,
-	CardDescription,
 } from "@beavercoding/ui/components/card";
 import { Separator } from "@beavercoding/ui/components/separator";
+import Link from "next/link";
 
 const features = [
 	{
@@ -43,8 +41,8 @@ export default function HomePage() {
 					BeaverCoding
 				</h1>
 				<p className="mt-4 max-w-xl text-lg text-muted-foreground">
-					We build React Native apps, Next.js frontends, and Node.js backends
-					— and we help teams turn knowledge into products.
+					We build React Native apps, Next.js frontends, and Node.js backends —
+					and we help teams turn knowledge into products.
 				</p>
 				<div className="mt-8 flex gap-3">
 					<Button asChild>
@@ -86,9 +84,7 @@ export default function HomePage() {
 					Have a project in mind? We would love to hear from you.
 				</p>
 				<Button className="mt-6" asChild>
-					<a href="mailto:hello@beavercoding.dev">
-						hello@beavercoding.dev
-					</a>
+					<a href="mailto:hello@beavercoding.dev">hello@beavercoding.dev</a>
 				</Button>
 			</section>
 		</div>

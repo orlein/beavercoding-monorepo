@@ -67,8 +67,7 @@ export default async function BlogListPage() {
 				</div>
 				<Button asChild>
 					<Link href="/blog/new">
-						<Plus className="size-4" />
-						새 글 작성
+						<Plus className="size-4" />새 글 작성
 					</Link>
 				</Button>
 			</div>

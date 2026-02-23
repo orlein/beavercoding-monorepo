@@ -2,18 +2,18 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Beaver World",
-  description: "BeaverCoding 커뮤니티",
+	title: "Beaver World",
+	description: "BeaverCoding 커뮤니티",
 };
 
 export default function RootLayout({
-  children,
+	children,
 }: {
-  children: React.ReactNode;
+	children: React.ReactNode;
 }) {
-  return (
-    <html lang="ko">
-      <body>{children}</body>
-    </html>
-  );
+	return (
+		<html lang="ko">
+			<body>{children}</body>
+		</html>
+	);
 }

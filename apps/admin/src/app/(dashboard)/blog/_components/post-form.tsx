@@ -16,7 +16,7 @@ const STATUS_OPTIONS: { value: PostStatus; label: string }[] = [
 ];
 
 interface PostFormProps {
-	action: (formData: FormData) => Promise<{ error?: string } | void>;
+	action: (formData: FormData) => Promise<{ error?: string } | undefined>;
 	defaultValues?: {
 		title?: string;
 		body?: string;
@@ -35,7 +35,7 @@ export function PostForm({
 	);
 
 	const [state, formAction, isPending] = useActionState(
-		async (_prev: { error?: string } | void, formData: FormData) => {
+		async (_prev: { error?: string } | undefined, formData: FormData) => {
 			return action(formData);
 		},
 		undefined,
@@ -74,9 +74,11 @@ export function PostForm({
 				/>
 			</div>
 
-			<div className="space-y-2">
-				<Label htmlFor="status-select">상태</Label>
-				<div className="flex gap-2" role="group" aria-label="Post status">
+			<fieldset className="space-y-2">
+				<Label asChild>
+					<legend>상태</legend>
+				</Label>
+				<div className="flex gap-2">
 					{STATUS_OPTIONS.map((opt) => (
 						<button
 							key={opt.value}
@@ -95,7 +97,7 @@ export function PostForm({
 						</button>
 					))}
 				</div>
-			</div>
+			</fieldset>
 
 			<div className="flex items-center gap-3">
 				<Button type="submit" disabled={isPending}>

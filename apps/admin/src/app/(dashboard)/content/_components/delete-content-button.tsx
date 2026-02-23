@@ -34,7 +34,11 @@ export function DeleteContentButton({
 	return (
 		<Dialog>
 			<DialogTrigger asChild>
-				<Button variant="ghost" size="sm" className="text-destructive hover:text-destructive">
+				<Button
+					variant="ghost"
+					size="sm"
+					className="text-destructive hover:text-destructive"
+				>
 					<Trash2 className="size-3.5" />
 					<span className="sr-only">삭제</span>
 				</Button>

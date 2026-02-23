@@ -4,10 +4,10 @@ import { BlogPostRepositoryLive } from "./adapters/outbound/blog-post-repository
 import { StaticContentRepositoryLive } from "./adapters/outbound/static-content-repository-drizzle.js";
 
 export const ContentRepositories = Layer.mergeAll(
-  BlogPostRepositoryLive,
-  StaticContentRepositoryLive,
+	BlogPostRepositoryLive,
+	StaticContentRepositoryLive,
 );
 
 export const ContentLive = ContentRepositories.pipe(
-  Layer.provide(DrizzleLayer),
+	Layer.provide(DrizzleLayer),
 );

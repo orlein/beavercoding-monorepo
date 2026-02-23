@@ -1,8 +1,7 @@
 export const ContentStatus = {
-  Draft: "draft",
-  Published: "published",
-  Hidden: "hidden",
+	Draft: "draft",
+	Published: "published",
+	Hidden: "hidden",
 } as const;
 
-export type ContentStatus =
-  (typeof ContentStatus)[keyof typeof ContentStatus];
+export type ContentStatus = (typeof ContentStatus)[keyof typeof ContentStatus];

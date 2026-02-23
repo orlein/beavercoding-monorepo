@@ -48,9 +48,7 @@ export function ContentEditor({ item }: ContentEditorProps) {
 							{item.body}
 						</p>
 					) : (
-						<p className="text-xs italic text-muted-foreground">
-							(내용 없음)
-						</p>
+						<p className="text-xs italic text-muted-foreground">(내용 없음)</p>
 					)}
 					{item.updated_at && (
 						<p className="text-xs text-muted-foreground">

@@ -1,9 +1,9 @@
 {
-  "extends": "@beavercoding/typescript-config/library.json",
-  "compilerOptions": {
-    "outDir": "dist",
-    "rootDir": "src",
-    "incremental": false
-  },
-  "include": ["src"]
+	"extends": "@beavercoding/typescript-config/library.json",
+	"compilerOptions": {
+		"outDir": "dist",
+		"rootDir": "src",
+		"incremental": false
+	},
+	"include": ["src"]
 }

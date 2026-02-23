@@ -2,12 +2,7 @@ import { createServerClient } from "@beavercoding/supabase/server";
 import { Button } from "@beavercoding/ui/components/button";
 import { Separator } from "@beavercoding/ui/components/separator";
 import { cn } from "@beavercoding/ui/lib/utils";
-import {
-	FileText,
-	LayoutDashboard,
-	LogOut,
-	Settings,
-} from "lucide-react";
+import { FileText, LayoutDashboard, LogOut, Settings } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 

@@ -1,8 +1,13 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@beavercoding/ui/components/card";
-import Link from "next/link";
+import {
+	Card,
+	CardContent,
+	CardHeader,
+	CardTitle,
+} from "@beavercoding/ui/components/card";
 import { ChevronLeft } from "lucide-react";
-import { createPost } from "../actions";
+import Link from "next/link";
 import { PostForm } from "../_components/post-form";
+import { createPost } from "../actions";
 
 export default function NewBlogPostPage() {
 	async function handleCreate(formData: FormData) {

@@ -1,12 +1,12 @@
-import Link from "next/link";
 import { createServerClient } from "@beavercoding/supabase/server";
 import {
 	Card,
 	CardContent,
+	CardDescription,
 	CardHeader,
 	CardTitle,
-	CardDescription,
 } from "@beavercoding/ui/components/card";
+import Link from "next/link";
 
 type BlogPost = {
 	id: string;

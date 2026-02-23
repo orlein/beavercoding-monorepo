@@ -66,10 +66,7 @@ export default async function StaticContentPage() {
 									<div className="min-w-0 flex-1">
 										<ContentEditor item={item} />
 									</div>
-									<DeleteContentButton
-										id={item.id}
-										contentKey={item.key}
-									/>
+									<DeleteContentButton id={item.id} contentKey={item.key} />
 								</div>
 							</div>
 						))}

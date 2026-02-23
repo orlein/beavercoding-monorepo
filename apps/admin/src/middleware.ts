@@ -1,6 +1,6 @@
 import { updateSession } from "@beavercoding/supabase/middleware";
-import { type NextRequest, NextResponse } from "next/server";
 import { createServerClient } from "@supabase/ssr";
+import { type NextRequest, NextResponse } from "next/server";
 
 const PUBLIC_PATHS = ["/login", "/auth/callback"];
 

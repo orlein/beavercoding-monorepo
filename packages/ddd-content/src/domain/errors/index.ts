@@ -1,15 +1,15 @@
 import { Data } from "effect";
 
 export class ContentNotFoundError extends Data.TaggedError(
-  "ContentNotFoundError",
+	"ContentNotFoundError",
 )<{
-  readonly message: string;
-  readonly id: string;
+	readonly message: string;
+	readonly id: string;
 }> {}
 
 export class SlugAlreadyExistsError extends Data.TaggedError(
-  "SlugAlreadyExistsError",
+	"SlugAlreadyExistsError",
 )<{
-  readonly message: string;
-  readonly slug: string;
+	readonly message: string;
+	readonly slug: string;
 }> {}
