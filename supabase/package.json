@@ -2,6 +2,7 @@
   "name": "@beavercoding/supabase-cli",
   "version": "0.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "start": "supabase start",
     "stop": "supabase stop",
