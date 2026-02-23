@@ -1,6 +1,6 @@
 import { Config } from "effect";
 
-export const DatabaseUrl = Config.string("DATABASE_URL");
+export const DatabaseUrl = Config.redacted("DATABASE_URL");
 
 export const SupabaseUrl = Config.string("NEXT_PUBLIC_SUPABASE_URL");
 
