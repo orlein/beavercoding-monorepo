@@ -1,6 +1,6 @@
 # Architecture — Current State
 
-> Last updated: 2026-02-22 (v0.1.0)
+> Last updated: 2026-02-23 (v0.1.0)
 
 ## Tech Stack
 
@@ -12,6 +12,8 @@
 | Backend/DB | Supabase (Auth, Database, Storage) |
 | ORM | Drizzle ORM (Supabase RLS) |
 | Backend Logic | Effect.ts + @effect/sql-drizzle |
+| Styling | Tailwind CSS v4 (CSS-first) |
+| UI Components | shadcn/ui (new-york style, OKLCH) |
 | Language | TypeScript (strict) |
 | Testing | Vitest |
 | DDD Build | tsup (ESM+CJS) |
@@ -42,6 +44,7 @@
 | `packages/supabase` | `@beavercoding/supabase` | JIT | Supabase 클라이언트, 타입 |
 | `packages/effect-infra` | `@beavercoding/effect-infra` | JIT | Effect.ts 공유 인프라 (DB, config, errors) |
 | `packages/vitest-config` | `@beavercoding/vitest-config` | JIT | Vitest 공유 설정 |
+| `packages/ui` | `@beavercoding/ui` | JIT | 공유 UI 컴포넌트 (Tailwind v4 + shadcn/ui) |
 
 ### DDD Bounded Contexts
 
@@ -88,6 +91,7 @@ beavercoding-monorepo/
 │   ├── supabase/                      # Supabase 클라이언트 + 타입
 │   ├── effect-infra/                  # Effect.ts 인프라
 │   ├── vitest-config/                 # Vitest 설정
+│   ├── ui/                            # 공유 UI (Tailwind v4 + shadcn/ui)
 │   └── ddd-content/                   # 콘텐츠 도메인 (BUILD)
 ├── supabase/                          # Supabase CLI workspace
 │   ├── migrations/
@@ -110,6 +114,28 @@ beavercoding-monorepo/
 - 타입 생성: `supabase gen types typescript` → `packages/supabase/src/types.ts`
 - Drizzle schema: `packages/ddd-*/src/infrastructure/schema/` → `supabase/migrations/`
 - 환경변수: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`
+
+## Styling (Tailwind CSS v4 + shadcn/ui)
+
+- **Tailwind CSS v4**: CSS-first 설정, `tailwind.config.js` 불필요
+- **PostCSS**: `@tailwindcss/postcss` 플러그인
+- **shadcn/ui**: `new-york` 스타일, OKLCH 색상 체계
+- **공유 패키지**: `packages/ui/` — 테마, 컴포넌트, 유틸리티
+- **테마**: `packages/ui/src/styles/globals.css` — `@theme inline` + CSS variables
+- **애니메이션**: `tw-animate-css` (tailwindcss-animate 대체)
+- **컴포넌트 추가**: `npx shadcn@latest add <component>` (packages/ui에서 실행)
+- **앱 CSS**: 각 앱의 `src/app/globals.css` → `@import "@beavercoding/ui/globals.css"`
+- **Import**: `import { cn } from "@beavercoding/ui/lib/utils"`
+
+```
+packages/ui/
+└── src/
+    ├── components/    # shadcn/ui 컴포넌트
+    ├── lib/
+    │   └── utils.ts   # cn() 유틸리티 (clsx + tailwind-merge)
+    └── styles/
+        └── globals.css # Tailwind v4 테마 + shadcn/ui 변수
+```
 
 ## Git Strategy
 

@@ -12,6 +12,7 @@
   "dependencies": {
     "@beavercoding/ddd-content": "workspace:*",
     "@beavercoding/supabase": "workspace:*",
+    "@beavercoding/ui": "workspace:*",
     "next": "^15",
     "react": "^19",
     "react-dom": "^19"
@@ -19,9 +20,11 @@
   "devDependencies": {
     "@beavercoding/eslint-config": "workspace:*",
     "@beavercoding/typescript-config": "workspace:*",
+    "@tailwindcss/postcss": "^4",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
+    "tailwindcss": "^4",
     "typescript": "^5"
   }
 }

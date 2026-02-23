@@ -5,6 +5,7 @@ const nextConfig: NextConfig = {
     "@beavercoding/supabase",
     "@beavercoding/effect-infra",
     "@beavercoding/ddd-content",
+    "@beavercoding/ui",
   ],
 };
 

@@ -2,6 +2,7 @@
 
 pnpm + Turborepo + Next.js (App Router) + Supabase + TypeScript (strict)
 Effect.ts (backend) + Drizzle ORM (Supabase RLS) + DDD (Hexagonal Architecture)
+Tailwind CSS v4 + shadcn/ui (styling)
 
 ## Structure
 
@@ -16,6 +17,7 @@ packages/eslint-config/        # 공유 ESLint (JIT)
 packages/supabase/             # Supabase 클라이언트 + 자동 생성 타입 (JIT)
 packages/effect-infra/         # Effect.ts 공유 인프라 (JIT)
 packages/vitest-config/        # Vitest 공유 설정 (JIT)
+packages/ui/                   # 공유 UI 컴포넌트 — Tailwind CSS v4 + shadcn/ui (JIT)
 packages/ddd-content/          # 콘텐츠 도메인 (BUILD — tsup)
 supabase/                      # Supabase CLI (migrations, seed)
 ```
@@ -31,6 +33,9 @@ supabase/                      # Supabase CLI (migrations, seed)
 7. Supabase 타입/클라이언트 → `@beavercoding/supabase`
 8. 제네릭 `utils` 패키지 금지 — 도메인별 분리
 9. 결정 변경 시 `history/CURRENT/` 업데이트
+10. 스타일링은 반드시 Tailwind CSS v4 + shadcn/ui 최신 버전 사용
+11. UI 컴포넌트 → `@beavercoding/ui` 공유 패키지에 배치
+12. shadcn/ui 컴포넌트 추가: `npx shadcn@latest add <component>` (packages/ui 디렉토리에서 실행)
 
 ## Package Patterns
 
@@ -45,6 +50,18 @@ supabase/                      # Supabase CLI (migrations, seed)
 - Infrastructure ports: inbound (use case interfaces), outbound (repository interfaces as Effect Context tags)
 - Drizzle schema: `infrastructure/schema/` — `pgTable` + `pgPolicy` with Supabase RLS
 - Effect Layer composition: `infrastructure/layer.ts`
+
+## Styling Conventions (Tailwind CSS v4 + shadcn/ui)
+
+- Tailwind CSS v4 — CSS-first 설정 (`@import "tailwindcss"`, `tailwind.config.js` 없음)
+- PostCSS 플러그인: `@tailwindcss/postcss`
+- shadcn/ui — `new-york` 스타일, OKLCH 색상, `tw-animate-css` 애니메이션
+- 공유 UI 패키지: `packages/ui/` — 모든 shadcn 컴포넌트와 테마 정의
+- 테마 변수: `packages/ui/src/styles/globals.css` — `@theme inline` 디렉티브
+- 각 앱 CSS: `src/app/globals.css` → `@import "@beavercoding/ui/globals.css"`
+- 컴포넌트 import: `import { Button } from "@beavercoding/ui/components/button"`
+- `cn()` 유틸: `import { cn } from "@beavercoding/ui/lib/utils"`
+- 컴포넌트 추가 CLI: `npx shadcn@latest add <component>` (packages/ui 디렉토리에서)
 
 ## Effect.ts Conventions
 
