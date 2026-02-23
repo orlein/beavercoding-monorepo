@@ -1,6 +1,6 @@
 # Development Guidelines — Current State
 
-> Last updated: 2026-02-23 (v0.1.0)
+> Last updated: 2026-02-23 (v0.2.0)
 
 ## Code Conventions
 
@@ -20,6 +20,7 @@
 - Domain Events: `Data.TaggedClass` 기반
 - Repositories: Effect `Context.Tag` 기반 interface
 - Services: `Effect.gen` 기반 use cases
+- Adapters: `Layer.effect`로 구현, `Effect.orDie`로 인프라 에러 처리
 
 ## Effect.ts Patterns
 
@@ -27,7 +28,9 @@
 - `@effect/sql-drizzle` + `@effect/sql-pg` for DB access
 - Services as Effect programs, composed via Layers
 - Error handling: TaggedError hierarchy
-- Config: `effect/Config` for environment variables
+- Config: `effect/Config` for environment variables (sensitive → `Config.redacted`)
+- Infrastructure errors (SqlError): `Effect.orDie` (defect, not domain error)
+- Layer composition: `Layer.mergeAll` + `Layer.provide`
 
 ## Turborepo Pipeline
 
@@ -70,7 +73,7 @@ packages:
 | Pattern | 대상 | 설명 |
 |---------|------|------|
 | JIT | config 패키지 | TS 소스 직접 export, 빌드 스텝 없음 |
-| BUILD | `ddd-*` 패키지 | tsup ESM+CJS, `dist/` 출력, dts 포함 |
+| BUILD | `ddd-*` 패키지 | tsup ESM, `dist/` 출력, dts 포함 |
 
 ## Testing
 
@@ -78,6 +81,10 @@ packages:
 - 공유 설정: `@beavercoding/vitest-config/base`
 - `ddd-*` 패키지: `src/**/*.test.ts` 패턴
 - `pnpm test` → Turborepo가 test task 실행
+- 테스트 종류:
+  - Value Object 테스트 (slug.test.ts)
+  - Mapper 테스트 (mappers.test.ts)
+  - Repository 계약 테스트 (mock 기반)
 
 ## Styling (Tailwind CSS v4 + shadcn/ui)
 
@@ -88,7 +95,7 @@ packages:
 - 공유 UI: `packages/ui/` (`@beavercoding/ui`)
   - `src/styles/globals.css` — 테마 변수 + Tailwind 설정
   - `src/lib/utils.ts` — `cn()` 유틸리티
-  - `src/components/` — shadcn/ui 컴포넌트
+  - `src/components/` — shadcn/ui 컴포넌트 (14개)
 - 앱 CSS: `src/app/globals.css` → `@import "@beavercoding/ui/globals.css"`
 - 컴포넌트 추가: `npx shadcn@latest add <component>` (packages/ui 디렉토리에서)
 - Import 패턴:
@@ -101,6 +108,14 @@ packages:
 - Migrations: `supabase/migrations/`
 - Schema: `pgTable` + `pgPolicy` with Supabase RLS
 - Commands: `pnpm db:generate`, `pnpm db:migrate`, `pnpm db:push`
+
+## Authentication (Supabase Auth)
+
+- Provider: GitHub, Discord (beaver-pass 완성 전까지)
+- Admin 앱: OAuth → 콜백 → 세션 설정
+- Middleware: `updateSession` (세션 갱신) + user 확인 (보호 라우트)
+- Server Actions: `createServerClient()`로 인증된 요청
+- Dashboard layout: 서버 컴포넌트에서 user 확인
 
 ## Claude Code Rules
 

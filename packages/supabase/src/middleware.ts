@@ -2,7 +2,7 @@ import { createServerClient } from "@supabase/ssr";
 import { type NextRequest, NextResponse } from "next/server";
 import type { Database } from "./types.js";
 
-export function updateSession(request: NextRequest) {
+export async function updateSession(request: NextRequest) {
   const response = NextResponse.next({ request });
 
   const supabase = createServerClient<Database>(
@@ -25,8 +25,7 @@ export function updateSession(request: NextRequest) {
     },
   );
 
-  // Refresh the auth token
-  supabase.auth.getUser();
+  await supabase.auth.getUser();
 
   return response;
 }

@@ -1,6 +1,6 @@
 # Architecture — Current State
 
-> Last updated: 2026-02-23 (v0.1.0)
+> Last updated: 2026-02-23 (v0.2.0)
 
 ## Tech Stack
 
@@ -16,24 +16,24 @@
 | UI Components | shadcn/ui (new-york style, OKLCH) |
 | Language | TypeScript (strict) |
 | Testing | Vitest |
-| DDD Build | tsup (ESM+CJS) |
+| DDD Build | tsup (ESM) |
 
 ## Package Strategy
 
 - **JIT (Just-In-Time)**: config 패키지 — 빌드 없이 TS 소스 직접 export
-- **BUILD**: `ddd-*` 패키지 — tsup으로 ESM+CJS 빌드, `dist/` 출력
+- **BUILD**: `ddd-*` 패키지 — tsup으로 ESM 빌드, `dist/` 출력
 
 ## Active Packages
 
 ### Apps
 
-| Package | Scope | 역할 | Port |
-|---------|-------|------|------|
-| `apps/homepage` | `@beavercoding/homepage` | 홈페이지 + 블로그 | 3000 |
-| `apps/admin` | `@beavercoding/admin` | 관리자 대시보드 | 3001 |
-| `apps/beaver-world` | `@beavercoding/beaver-world` | 커뮤니티 (placeholder) | 3002 |
-| `apps/beaver-pass` | `@beavercoding/beaver-pass` | OAuth 인증모듈 (placeholder) | 3003 |
-| `apps/beaver-reporter` | `@beavercoding/beaver-reporter` | 데이터 수집 (placeholder) | 3004 |
+| Package | Scope | 역할 | Port | 상태 |
+|---------|-------|------|------|------|
+| `apps/homepage` | `@beavercoding/homepage` | 홈페이지 + 블로그 | 3000 | 랜딩+블로그 구현 |
+| `apps/admin` | `@beavercoding/admin` | 관리자 대시보드 | 3001 | 인증+블로그CRUD+콘텐츠 관리 |
+| `apps/beaver-world` | `@beavercoding/beaver-world` | 커뮤니티 (placeholder) | 3002 | 스캐폴딩 |
+| `apps/beaver-pass` | `@beavercoding/beaver-pass` | OAuth 인증모듈 (placeholder) | 3003 | 스캐폴딩 |
+| `apps/beaver-reporter` | `@beavercoding/beaver-reporter` | 데이터 수집 (placeholder) | 3004 | 스캐폴딩 |
 
 ### Shared Packages
 
@@ -41,7 +41,7 @@
 |---------|-------|---------|------|
 | `packages/typescript-config` | `@beavercoding/typescript-config` | JIT | 공유 tsconfig |
 | `packages/eslint-config` | `@beavercoding/eslint-config` | JIT | 공유 ESLint (base, next, library) |
-| `packages/supabase` | `@beavercoding/supabase` | JIT | Supabase 클라이언트, 타입 |
+| `packages/supabase` | `@beavercoding/supabase` | JIT | Supabase 클라이언트, 타입, 미들웨어 |
 | `packages/effect-infra` | `@beavercoding/effect-infra` | JIT | Effect.ts 공유 인프라 (DB, config, errors) |
 | `packages/vitest-config` | `@beavercoding/vitest-config` | JIT | Vitest 공유 설정 |
 | `packages/ui` | `@beavercoding/ui` | JIT | 공유 UI 컴포넌트 (Tailwind v4 + shadcn/ui) |
@@ -70,10 +70,30 @@ packages/ddd-<context>/
         ├── ports/
         │   ├── inbound/       # Port interfaces
         │   └── outbound/      # Repository interfaces (Effect Context tags)
-        ├── adapters/outbound/ # Drizzle 구현체
+        ├── adapters/outbound/ # Drizzle 구현체 (v0.2.0 구현 완료)
         ├── schema/            # Drizzle 테이블 + Supabase RLS policies
-        └── layer.ts           # Effect Layer composition
+        └── layer.ts           # Effect Layer composition (ContentLive)
 ```
+
+## Data Access Patterns
+
+### Effect + @effect/sql-drizzle (서버 사이드)
+- ddd-content 리포지토리 어댑터가 Drizzle 테이블 쿼리
+- `SqlError` → `Effect.orDie` (인프라 에러는 defect)
+- `ContentNotFoundError` → 도메인 에러
+- `ContentLive` Layer = `BlogPostRepositoryLive` + `StaticContentRepositoryLive` + `DrizzleLayer`
+
+### Supabase Client (앱)
+- Homepage: anon key로 공개 읽기 (RLS가 published만 허용)
+- Admin: auth session으로 CRUD (RLS가 인증된 사용자 접근 제어)
+- Server Actions에서 `createServerClient()` 사용
+
+## Authentication
+
+- Supabase Auth의 GitHub + Discord OAuth
+- Admin 앱: 로그인 → OAuth → 콜백 → 세션 설정
+- Middleware: 보호 라우트 (로그인/콜백 제외)
+- Dashboard layout: 서버 컴포넌트에서 user 확인, 미인증 시 리다이렉트
 
 ## Directory Structure
 
@@ -81,26 +101,39 @@ packages/ddd-<context>/
 beavercoding-monorepo/
 ├── apps/
 │   ├── homepage/                      # Next.js (홈페이지 + 블로그)
+│   │   └── src/app/
+│   │       ├── page.tsx               # 랜딩
+│   │       └── blog/
+│   │           ├── page.tsx           # 블로그 목록
+│   │           └── [slug]/page.tsx    # 블로그 상세
 │   ├── admin/                         # Next.js (관리자)
-│   ├── beaver-world/                  # Next.js (커뮤니티, placeholder)
-│   ├── beaver-pass/                   # Next.js (인증, placeholder)
-│   └── beaver-reporter/               # Next.js (데이터 수집, placeholder)
+│   │   └── src/
+│   │       ├── middleware.ts          # Auth 가드
+│   │       └── app/
+│   │           ├── login/page.tsx     # 로그인
+│   │           ├── auth/callback/     # OAuth 콜백
+│   │           └── (dashboard)/       # 보호 라우트 그룹
+│   │               ├── page.tsx       # 대시보드
+│   │               ├── blog/          # 블로그 CRUD
+│   │               └── content/       # 정적 콘텐츠 관리
+│   ├── beaver-world/                  # placeholder
+│   ├── beaver-pass/                   # placeholder
+│   └── beaver-reporter/               # placeholder
 ├── packages/
 │   ├── typescript-config/             # 공유 tsconfig
 │   ├── eslint-config/                 # 공유 ESLint
 │   ├── supabase/                      # Supabase 클라이언트 + 타입
 │   ├── effect-infra/                  # Effect.ts 인프라
 │   ├── vitest-config/                 # Vitest 설정
-│   ├── ui/                            # 공유 UI (Tailwind v4 + shadcn/ui)
+│   ├── ui/                            # 공유 UI (13개 shadcn 컴포넌트)
 │   └── ddd-content/                   # 콘텐츠 도메인 (BUILD)
 ├── supabase/                          # Supabase CLI workspace
-│   ├── migrations/
-│   └── config.toml
 ├── history/
 │   ├── initial/                       # 초기 결정 (수정 금지)
 │   ├── CURRENT/                       # 최신 상태
-│   └── v0.1.0/                        # v0.1.0 기록
-├── drizzle.config.ts                  # Drizzle Kit 설정
+│   ├── v0.1.0/                        # v0.1.0 기록
+│   └── v0.2.0/                        # v0.2.0 기록
+├── drizzle.config.ts
 ├── turbo.json
 ├── pnpm-workspace.yaml
 ├── tsconfig.base.json
@@ -110,8 +143,11 @@ beavercoding-monorepo/
 ## Supabase
 
 - `supabase/` — CLI workspace (migrations, seed, config)
-- `packages/supabase/` — 앱에서 사용하는 클라이언트와 자동 생성 타입
-- 타입 생성: `supabase gen types typescript` → `packages/supabase/src/types.ts`
+- `packages/supabase/` — 앱에서 사용하는 클라이언트와 타입
+  - `client.ts` — 브라우저 클라이언트
+  - `server.ts` — 서버 클라이언트 (cookies 기반)
+  - `middleware.ts` — Next.js 미들웨어 세션 갱신
+  - `types.ts` — 수동 유지 Database 타입 (나중에 `pnpm run generate`로 자동 생성)
 - Drizzle schema: `packages/ddd-*/src/infrastructure/schema/` → `supabase/migrations/`
 - 환경변수: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`
 
@@ -120,22 +156,10 @@ beavercoding-monorepo/
 - **Tailwind CSS v4**: CSS-first 설정, `tailwind.config.js` 불필요
 - **PostCSS**: `@tailwindcss/postcss` 플러그인
 - **shadcn/ui**: `new-york` 스타일, OKLCH 색상 체계
-- **공유 패키지**: `packages/ui/` — 테마, 컴포넌트, 유틸리티
-- **테마**: `packages/ui/src/styles/globals.css` — `@theme inline` + CSS variables
-- **애니메이션**: `tw-animate-css` (tailwindcss-animate 대체)
-- **컴포넌트 추가**: `npx shadcn@latest add <component>` (packages/ui에서 실행)
+- **공유 패키지**: `packages/ui/` — 테마, 13개 컴포넌트, 유틸리티
+- **사용 가능 컴포넌트**: button, card, input, textarea, badge, separator, label, table, dialog, dropdown-menu, avatar, tabs, sonner, select
 - **앱 CSS**: 각 앱의 `src/app/globals.css` → `@import "@beavercoding/ui/globals.css"`
-- **Import**: `import { cn } from "@beavercoding/ui/lib/utils"`
-
-```
-packages/ui/
-└── src/
-    ├── components/    # shadcn/ui 컴포넌트
-    ├── lib/
-    │   └── utils.ts   # cn() 유틸리티 (clsx + tailwind-merge)
-    └── styles/
-        └── globals.css # Tailwind v4 테마 + shadcn/ui 변수
-```
+- **Import**: `import { Button } from "@beavercoding/ui/components/button"`
 
 ## Git Strategy
 

@@ -40,3 +40,15 @@ export type { ContentQueryPort } from "./infrastructure/ports/inbound/index.js";
 // Infrastructure — Schema
 export { blogPosts } from "./infrastructure/schema/blog-posts.js";
 export { staticContents } from "./infrastructure/schema/static-contents.js";
+
+// Infrastructure — Adapters
+export {
+  BlogPostRepositoryLive,
+  StaticContentRepositoryLive,
+} from "./infrastructure/adapters/outbound/index.js";
+
+// Infrastructure — Layer
+export {
+  ContentRepositories,
+  ContentLive,
+} from "./infrastructure/layer.js";

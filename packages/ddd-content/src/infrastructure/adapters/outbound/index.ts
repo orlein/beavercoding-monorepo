@@ -1,4 +1,2 @@
-// Drizzle adapter implementations will be added when DB is connected.
-// Each adapter will implement the corresponding repository port interface
-// using @effect/sql-drizzle for type-safe DB access.
-export {};
+export { BlogPostRepositoryLive } from "./blog-post-repository-drizzle.js";
+export { StaticContentRepositoryLive } from "./static-content-repository-drizzle.js";

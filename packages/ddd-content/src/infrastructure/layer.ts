@@ -1,9 +1,13 @@
-// Effect Layer composition for the Content bounded context.
-// Layers will be composed here once adapter implementations are available.
-//
-// Example:
-//   export const ContentLive = Layer.mergeAll(
-//     BlogPostRepositoryLive,
-//     StaticContentRepositoryLive,
-//   ).pipe(Layer.provide(DrizzleLive));
-export {};
+import { layer as DrizzleLayer } from "@effect/sql-drizzle/Pg";
+import { Layer } from "effect";
+import { BlogPostRepositoryLive } from "./adapters/outbound/blog-post-repository-drizzle.js";
+import { StaticContentRepositoryLive } from "./adapters/outbound/static-content-repository-drizzle.js";
+
+export const ContentRepositories = Layer.mergeAll(
+  BlogPostRepositoryLive,
+  StaticContentRepositoryLive,
+);
+
+export const ContentLive = ContentRepositories.pipe(
+  Layer.provide(DrizzleLayer),
+);

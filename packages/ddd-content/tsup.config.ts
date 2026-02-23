@@ -6,5 +6,5 @@ export default defineConfig({
   dts: true,
   splitting: false,
   clean: true,
-  external: ["effect", "@effect/sql-drizzle", "drizzle-orm"],
+  external: ["effect", "@effect/sql", "@effect/sql-drizzle", "drizzle-orm"],
 });

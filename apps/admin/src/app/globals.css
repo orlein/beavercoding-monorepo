@@ -1,3 +1,8 @@
 @import "@beavercoding/ui/globals.css";
 
 @source "../../../../packages/ui/src/**/*.{ts,tsx}";
+@source "../**/*.{ts,tsx}";
+
+@theme inline {
+  --font-sans: var(--font-inter, ui-sans-serif, system-ui, sans-serif);
+}
