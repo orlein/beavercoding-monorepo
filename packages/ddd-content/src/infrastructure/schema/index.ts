@@ -1,2 +1,2 @@
-export { blogPosts } from "./blog-posts.js";
-export { staticContents } from "./static-contents.js";
+export { blogPosts } from "./blog-posts";
+export { staticContents } from "./static-contents";
